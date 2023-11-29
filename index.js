@@ -28,7 +28,7 @@ app.get("/api/hello", function (req, res) {
 
 //Get request for timestamp
 app.get("/api/:id", (req, res) => { // ':' specifies route parameter
-  res.send(`Test time ${req.params}`);
+  res.json({ response: `Test time ${req.params}` });
 }) 
 
 // listen for requests :)
