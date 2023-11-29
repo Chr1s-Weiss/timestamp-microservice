@@ -26,7 +26,10 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-
+//Get request for timestamp
+app.get("/api/:id", (req, res) => { // ':' specifies route parameter
+  res.send(`Test time ${req.params}`);
+}) 
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
