@@ -21,9 +21,11 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
         port: 22
         script: |
-          cd /timestamp-microservice/
+          cd ${{ secrets.PATH }}
           git pull origin main
           git status
           npm install --only=prod
+          pm2 restart server
