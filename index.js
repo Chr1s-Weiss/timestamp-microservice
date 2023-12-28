@@ -26,11 +26,11 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-//Get request for timestamp
-///api/:date? takes in a date parameter in either unix or utc format
-/// if no date is provided, return current date
-/// if date is valid, return unix and utc format
-/// if date is invalid, return error message
+// Get request for timestamp
+// /api/:date? takes in a date parameter in either unix or utc format
+// / if no date is provided, return current date
+// / if date is valid, return unix and utc format
+// / if date is invalid, return error message
 app.get("/api/:id?", (req, res) => { // ':' specifies route parameter
   let date;
   if(req.params.id === undefined) {  
@@ -39,18 +39,18 @@ app.get("/api/:id?", (req, res) => { // ':' specifies route parameter
     return;
   }
   else {
-    date = new Date(req.params.id);
-    if(date.toString() !== "Invalid Date") {
-      res.json( {"unix": date.getTime(), "utc": date.toUTCString() });
-      return;
+    if(isNaN(req.params.id)) { // if date is in utc format
+      date = new Date(req.params.id);
     }
-    date = new Date(parseInt(req.params.id));
-    if(date.toString() !== "Invalid Date") {
-      res.json( {"unix": date.getTime(), "utc": date.toUTCString() });
-      return;
+    else { // if date is in unix format
+      date = new Date(parseInt(req.params.id));
     }
+    
+    if(date.toString() === "Invalid Date") {
       res.json({ error : "Invalid Date" });
       return;
+    }
+    res.json( {"unix": date.getTime(), "utc": date.toUTCString() });
   }
 }) 
 
