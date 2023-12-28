@@ -28,10 +28,19 @@ app.get("/api/hello", function (req, res) {
 
 //Get request for timestamp
 app.get("/api/:id", (req, res) => { // ':' specifies route parameter
-  res.json({ response: `Test time ${req.params}` });
+    let date = new Date();
+    if (req.params.id.includes('-')) {
+        date = new Date(req.params.id);
+    } else if (parseInt(req.params.id) >= 0) { 
+        date = new Date(parseInt(req.params.id));
+    }
+    if(date.toString() === "Invalid Date") {
+        res.json({ error : "Invalid Date" });
+    }
+    res.json( {"unix": date.getTime(), "utc": date.toUTCString() });
 }) 
 
-// listen for requests :)
+// listen for requests :) 
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
