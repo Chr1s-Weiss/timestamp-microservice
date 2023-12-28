@@ -35,17 +35,23 @@ app.get("/api/:id?", (req, res) => { // ':' specifies route parameter
   let date;
   if(req.params.id === undefined) {  
     date = new Date();
-  }
-  else if (req.params.id.includes('-')) {
-    date = new Date(req.params.id);
-  } 
-  else {
-    date = new Date(parseInt(req.params.id));
-  }
-  if(date.toString() === "Invalid Date") {
-      res.json({ error : "Invalid Date" });
-  }
     res.json( {"unix": date.getTime(), "utc": date.toUTCString() });
+    return;
+  }
+  else {
+    date = new Date(req.params.id);
+    if(date.toString() !== "Invalid Date") {
+      res.json( {"unix": date.getTime(), "utc": date.toUTCString() });
+      return;
+    }
+    date = new Date(parseInt(req.params.id));
+    if(date.toString() !== "Invalid Date") {
+      res.json( {"unix": date.getTime(), "utc": date.toUTCString() });
+      return;
+    }
+      res.json({ error : "Invalid Date" });
+      return;
+  }
 }) 
 
 // listen for requests :) 
