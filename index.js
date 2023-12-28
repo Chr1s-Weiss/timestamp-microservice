@@ -39,7 +39,7 @@ app.get("/api/:id?", (req, res) => { // ':' specifies route parameter
   else if (req.params.id.includes('-')) {
     date = new Date(req.params.id);
   } 
-  else if (parseInt(req.params.id) >= 0) { // check if timestamp is valid UNIX timestamp
+  else {
     date = new Date(parseInt(req.params.id));
   }
   if(date.toString() === "Invalid Date") {
